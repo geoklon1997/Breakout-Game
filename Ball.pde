@@ -60,9 +60,7 @@ class Ball
       counter=counter+1;
       
       vy=-vy;
-       PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage,15,15);
+      //shakeScreen();
       Breakout_3.points++;
       Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
       reSize();
@@ -76,9 +74,7 @@ class Ball
      
       counter=counter+1;
      vy=-vy;
-      PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage,15,15);
+       //shakeScreen();
       Breakout_3.points++;
       Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
       reSize();
@@ -91,9 +87,7 @@ class Ball
        
       counter=counter+1;
       vy=-vy;
- PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage,15,15);
+   //shakeScreen();
             Breakout_3.points++;
       reSize();
 
@@ -106,9 +100,7 @@ class Ball
      reColor();
       counter=counter+1;
       vy=-vy;
-       PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage,15,15);
+        //shakeScreen();
             Breakout_3.points++;
 
       Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
@@ -126,10 +118,7 @@ class Ball
 
       vx = -vx;
     if (effects!=true&&y-5<750) {
-      selectEffect.trigger();
-       PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage, 8, 8);
+     //shakeScreen();
     }
     }
     if (y-5<60) {
@@ -139,9 +128,7 @@ class Ball
 
    if (effects!=true) {
       selectEffect.trigger();
-       PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage, 8, 8);
+     //shakeScreen();
    }
     }
   }
@@ -162,9 +149,7 @@ void CheckCollisionWithBat()
      
     vy= -vy;
     vx=-5;
-    PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage, 8, 8);
+     //shakeScreen();
       reSize();
 
   }
@@ -180,9 +165,7 @@ void CheckCollisionWithBat()
      
     vy= -vy;
     vx=5;
-    PImage screenImage = get();
-      imageMode(CORNER);
-      image(screenImage, 8, 8);
+    //shakeScreen();
       reSize();
 
   }
@@ -221,5 +204,13 @@ public void changeSpeed() {
 
 public color returnColor() {
   return colour;
+}
+
+public void shakeScreen() {
+   if (effects==true) {
+       PImage screenImage = get();
+      imageMode(CORNER);
+      image(screenImage,15,15);
+      }
 }
 }
