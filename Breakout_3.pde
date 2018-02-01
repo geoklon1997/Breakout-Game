@@ -400,10 +400,18 @@ void GameOver() {
     tailSize=100;
 
     background(0);
-    textSize(50);
+    textSize(48);
     fill(255, 0, 0);
     text("Congratulations!You managed to Breakout", 80, 200);
+    Rectangle r=new Rectangle(104,200,30,30,color(0,250,0));
     text("Press q to exit", 450, 650);
+    r.draw();
+    LAser l = new LAser(120);
+    
+    l.drawLaser();
+    l.moveLaser();
+    l.CheckCollisionWithBricks(r);
+    l.CheckLaserPosition();
   }
 }
 
