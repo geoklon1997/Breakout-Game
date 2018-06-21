@@ -75,6 +75,9 @@ int counter=0;
 public static int xSizeBat=100;
 Ball b, b1, b2, b3, bP;
 int s,m,milli=0;
+public int menuSelector = 0;
+
+public boolean[] menuOpen;
 
 void setup() {
   b=new Ball();
@@ -107,7 +110,11 @@ void setup() {
   img9 = loadImage("lightblueBeam.png");
 
   size(1200, 700);
-
+  menuOpen = new boolean[4];
+  menuOpen[0]=false;
+  menuOpen[1]=false;
+  menuOpen[2]=false;
+  menuOpen[3]=false;
   ResetGame();
 
   smooth();
@@ -287,13 +294,41 @@ void keyPressed() {
   if (key=='1') {
 
     colorOption=1;
+      ResetGame();
+    Restart();
   }
   if (key=='2') {
 
     colorOption=2;
+    ResetGame();
+    Restart();
   }
-}
+    if (key == CODED) {
 
+  if (keyCode ==DOWN) {
+    menuSelector--;
+    if (menuSelector ==-1) {
+      menuSelector = 3;
+  }
+    println(""+menuSelector);
+  }
+  
+
+  if (keyCode ==UP) {
+    menuSelector++;
+    if (menuSelector ==4) {
+      menuSelector = 0;
+  }
+  //println(""+menuSelector);
+  }
+    }
+    
+    if (key == ENTER) {
+    menuOpen[menuSelector] = true;
+      println(""+menuOpen[menuSelector]);
+
+    }
+  }
 void keyReleased() {
   if (key== 'l') {
     LAser l = new LAser(mouseX+8);
@@ -382,7 +417,7 @@ void GameOver() {
 
       image(img4, 570 + 22* 6-22*i, 260, 20, 20);
     }
-    text("Press space to continue playing", 270, 650);
+    text("Press space to continue playing", 150, 650);
   }
   if (counter==lstRect.size()) {
 
@@ -536,22 +571,22 @@ void NewGame() {
         background(0, 0, 0);
         textSize(50);
         fill(255, 0, 0);
-        if (mouseY>=259&&mouseY<=300&&mouseX>=410&&mouseX<=1000) {
+        if ((mouseY>=259&&mouseY<=300&&mouseX>=410&&mouseX<=1000)||menuSelector==3) {
           fill(255, 255, 0);
         }
         text("Click to continue playing", 400, 300);
         fill(255, 0, 0);
-        if (mouseY>=359&&mouseY<=400&&mouseX>=550&&mouseX<=750) {
+        if ((mouseY>=359&&mouseY<=400&&mouseX>=550&&mouseX<=750)||menuSelector==2) {
           fill(255, 255, 0);
         }
         text("Options", 550, 400);
         fill(255, 0, 0);
-        if (mouseY>=459&&mouseY<=500&&mouseX>=550&&mouseX<=760) {
+        if ((mouseY>=459&&mouseY<=500&&mouseX>=550&&mouseX<=760)||menuSelector==1) {
           fill(255, 255, 0);
         }
         text("Controls", 550, 500);
         fill(255, 0, 0);
-        if (mouseY>=559&&mouseY<=600&&mouseX>=600&&mouseX<=690) {
+        if ((mouseY>=559&&mouseY<=600&&mouseX>=600&&mouseX<=690)||menuSelector==0) {
           fill(255, 255, 0);
         }
 
@@ -637,6 +672,9 @@ void draw() {
               // checkPowerUps(powerups);
 
               drawWall(); //draws the wall
+              
+                 // println(""+menuSelector);
+
 
               CheckPwrUp();
 
@@ -774,7 +812,9 @@ public void Restart() {
 
   counter=0;
   lives=7;
-
+  s=0;
+  m=0;
+  milli=0;
   lstRect.clear();
   for (int b=0; b<20; b++) {
     for (int i=0; i<29; i++) {
