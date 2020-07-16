@@ -47,13 +47,14 @@ public static ArrayList<Ball> balls = new ArrayList<Ball>();
 public static ArrayList<LAser> beams = new ArrayList<LAser>();
 
 
-public static int count = 4;
+public static int count = 0;
 // is ball in play?
 boolean inPlayMode;
 
 //position of rectangles
 float xRect=105;
 float yRect=200;
+boolean hideUI = false;
 
 float Random, Random2;
 float xBat;
@@ -71,7 +72,7 @@ boolean gameover=false;
 boolean pause=false;
 public static int colorOption = 1;
 public static boolean powerups=true;
-int counter=0;
+public static int counter=0;
 public static int xSizeBat=100;
 Ball b, b1, b2, b3, bP;
 int s,m,milli=0;
@@ -80,22 +81,22 @@ public int menuSelector = 0;
 public boolean[] menuOpen;
 
 void setup() {
-  b=new Ball();
-  b1=new Ball();
-  b2=new Ball();
+  //b=new Ball();
+  //b1=new Ball();
+  //b2=new Ball();
 
-  b3=new Ball();
+  //b3=new Ball();
 
-  balls.add(b1);
+  //balls.add(b1);
 
-  balls.add(b2);
+  //balls.add(b2);
 
-  balls.add(b3);
-  balls.add(b);
+  //balls.add(b3);
+  //balls.add(b);
 
   colorBat = color(30, 60, 90);
-  mono = createFont("OratorStd", 30);
-  textFont(mono);
+  mono = loadFont("AlienEncounters-35.vlw");
+ // textFont(mono);
   frameRate(60);
   loadSoundEffects();
   img = loadImage("originalPallet.PNG");
@@ -109,13 +110,12 @@ void setup() {
   img8 = loadImage("greenBeam.png");
   img9 = loadImage("lightblueBeam.png");
 
-  size(1200, 700);
+  size(1200, 700);//w:width*0.625, h:height-
   menuOpen = new boolean[4];
   menuOpen[0]=false;
   menuOpen[1]=false;
   menuOpen[2]=false;
   menuOpen[3]=false;
-  ResetGame();
 
   smooth();
 
@@ -217,7 +217,7 @@ void keyPressed() {
     gameover=false;
     if (pauseCheck==true) {
       pauseCheck=false;
-      music.play();
+   //   music.play();
     }
     if (lives==0) {
       LoseEffect.close();
@@ -255,8 +255,7 @@ void keyPressed() {
   }
 
   if (key =='b') {
-    Ball b4 = new Ball();
-    balls.add(b4);
+    addBall();
   }
   if (key=='m') {
     if (mute==false&&ClickMusic%2==0) {
@@ -331,40 +330,35 @@ void keyPressed() {
   }
 void keyReleased() {
   if (key== 'l') {
-    LAser l = new LAser(mouseX+8);
+   addLaser();
+  }
+}
+
+
+void addLaser() {
+   LAser l = new LAser(mouseX+8);
     LAser l1 = new LAser(mouseX-8);
     l.laserRandomChoice();
     l1.laserRandomChoice();
     beams.add(l);
     beams.add(l1);
-  }
+}
+
+void addBall() {
+  Ball b= new Ball();
+balls.add(b);
+count++;
 }
 
 
-
-
 void ResetGame() {
-  count=4;
+ count =0;
+  balls.clear();
+  addBall();
+  //addBall();
+  //addBall();
+  //addBall();
 
-  b.y=510;
-  b.x=random(500, 1000);
-  b.vx = -5;
-  b.vy = -5;
-
-  b1.y=450;
-  b1.x=random(500, 1000);
-  b1.vx=-5;
-  b1.vy=-5;
-
-  b2.y=470;
-  b2.x=random(500, 1000);
-  b2.vx = -5;
-  b2.vy = -5;
-
-  b3.y=600;
-  b3.x=random(500, 1000);
-  b3.vx = -5;
-  b3.vy = -5;
 }
 
 void GameOver() {
@@ -421,8 +415,14 @@ void GameOver() {
   }
   if (counter==lstRect.size()) {
 
-    music.pause();
-    WinEffect.play();
+    
+   victoryDraw();
+  }
+}
+
+void victoryDraw() {
+ // music.pause();
+   // WinEffect.play();
     fill(0, 200, 0);
     stroke(0, 255, 0);
     strokeWeight(3);
@@ -434,20 +434,10 @@ void GameOver() {
 
     tailSize=100;
 
-    background(0);
     textSize(48);
     fill(255, 0, 0);
-    text("Congratulations!You managed to Breakout", 80, 200);
-    Rectangle r=new Rectangle(104,200,30,30,color(0,250,0));
-    text("Press q to exit", 450, 650);
-    r.draw();
-    LAser l = new LAser(120);
-    
-    l.drawLaser();
-    l.moveLaser();
-    l.CheckCollisionWithBricks(r);
-    l.CheckLaserPosition();
-  }
+    text("Congratulations!You managed to Breakout", 20, 200);
+text("Press q to exit", 450, 650);
 }
 
 void drawWall() {
@@ -462,10 +452,11 @@ void drawWall() {
   line(width-20, 60, width-20, height);
   // line(width/2-350, 0, width/2-350, 60);
 
+if (hideUI==false) {
   textSize(20);
   fill(0, 250, 0);
   text("Lives left : ", width/2, 55);
-  text("Balls left : ", width/2-300, 55);
+  text("Balls left : "+count, width/2-300, 55);
   text("Level Progress : ", width/2-520, 25);
  
   stroke(0,250,0);
@@ -474,22 +465,23 @@ void drawWall() {
   fill(250,0,0);
   rect(width/2-320,10,counter/2,20);
    fill(255);
-    textSize(16);
+    textSize(15);
 
-  text(" " +round( counter/5.8 * 100.0f ) / 100.0f+" % completed ", width/2-310, 25);
+  text(" " +int(round( counter/5.8 * 100.0f ) / 100.0f)+" % completed ", width/2-310, 25);
+    textSize(20);
 
-  for (int i=0; i<count; i++) {
-    Ball b = new Ball();
-    Ball temp = balls.get(i);
-    b.x = width/2-130+20*i;
-    b.y = 50;
-    b.xsize=10;
-    b.ysize=10;
-    b.colour = temp.returnColor();
+  //for (int i=0; i<count; i++) {
+  //  Ball b = new Ball();
+  //  Ball temp = balls.get(i);
+  //  b.x = width/2-130+20*i;
+  //  b.y = 50;
+  //  b.xsize=10;
+  //  b.ysize=10;
+  //  b.colour = temp.returnColor();
 
-    b.drawBall();
-    ;
-  }
+  //  b.drawBall();
+  //  ;
+  //}
   for (int i=0; i<lives; i++) {
 
     image(img3, width/2+170 + 22* i, 35, 20, 20);
@@ -515,6 +507,7 @@ void drawWall() {
   }
   stroke(0);
   strokeWeight(3);
+}
 }
 
 void NewGame() {
@@ -643,7 +636,7 @@ void draw() {
 
     if (pause==false) {
 
-      if (counter<20*29) {
+     // if (counter<20*29) {
 
         if (gameover==false) {
 
@@ -651,7 +644,7 @@ void draw() {
           if (inPlayMode) {
 
             //  GameModeChoice();
-            if (((mouseX>60)&&(mouseX<width-60))||(pause==true)||(mouseY>height)) {
+            if (((mouseX>30)&&(mouseX<width-30))||(pause==true)||(mouseY>height)) {
 
               if (music.isPlaying()==false) {
                 music.rewind();
@@ -724,14 +717,56 @@ void draw() {
                 for (Ball b : balls) {
                   b.CheckCollisionWithBricks(r);
                 }
-              }
-
-              for (Rectangle r : lstRect) {
-
-                r.draw();
                 for (LAser l : beams) {
                   l.CheckCollisionWithBricks(r);
                 }
+              }
+              
+              if (counter==20*29) {
+                balls.clear();
+
+        addBricks();
+        beams.clear();
+        hideUI = true;
+                        //victoryDraw();
+
+         
+         addLaser();
+          addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+         addLaser();
+
+         
+      
+
+      for (LAser l : beams) {
+
+
+                l.moveLaser();  //moves ball
+
+                l.drawLaser();
+
+                l.CheckLaserPosition();
+          }
+          
+      //  for (Rectangle r : lstRect) {
+
+      //          r.draw();
+                
+        
+      //}
+    }
+
+              if (s%20==0&&milli==0) {
+                addBall();
+                addLaser();
               }
             } else {
               fill(190, 0, 0);
@@ -757,9 +792,21 @@ void draw() {
             lives=7;
           }
         }
-      } else {
-        GameOver();
-      }
+      //} else {
+      //  //GameOver();
+      //  balls.clear();
+
+      //  addBricks();
+      //  beams.clear();
+      //          victoryDraw();
+
+      //  for (Rectangle r : lstRect) {
+
+      //          r.draw();
+                
+        
+      //}
+      //}
     } else {
 
       options();
@@ -808,6 +855,17 @@ public void checkEffects(boolean effects) {
   }
 }
 
+public void addBricks() {
+   lstRect.clear();
+  for (int b=0; b<20; b++) {
+    for (int i=0; i<29; i++) {
+      strokeWeight(3);
+
+      lstRect.add(new Rectangle (17+40*i, 100+10*b, 40, 10, color(selectRectColor(b, colorOption))));
+    }
+  }
+}
+
 public void Restart() {
 
   counter=0;
@@ -815,17 +873,7 @@ public void Restart() {
   s=0;
   m=0;
   milli=0;
-  lstRect.clear();
-  for (int b=0; b<20; b++) {
-    for (int i=0; i<29; i++) {
-      strokeWeight(3);
-
-
-
-
-      lstRect.add(new Rectangle (17+40*i, 100+10*b, 40, 10, color(selectRectColor(b, colorOption))));
-    }
-  }
+ addBricks();
 }
 
 int selectRectColor(int b, int colorOption) {
