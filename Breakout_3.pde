@@ -3,7 +3,7 @@ import ddf.minim.*;
 
 PImage img, img1, img2, img3, img4, img5,img6,img7,img8,img9;
 
-int lives=7;
+int lives=8;
 int i=0;
 int PowerUps=0;
 
@@ -81,22 +81,11 @@ public int menuSelector = 0;
 public boolean[] menuOpen;
 
 void setup() {
-  //b=new Ball();
-  //b1=new Ball();
-  //b2=new Ball();
-
-  //b3=new Ball();
-
-  //balls.add(b1);
-
-  //balls.add(b2);
-
-  //balls.add(b3);
-  //balls.add(b);
+ 
 
   colorBat = color(30, 60, 90);
   mono = loadFont("AlienEncounters-35.vlw");
- // textFont(mono);
+  textFont(mono);
   frameRate(60);
   loadSoundEffects();
   img = loadImage("originalPallet.PNG");
@@ -132,7 +121,6 @@ void mousePressed() {
     inPlayMode=true;
   }
   if (inPlayMode==false&&lives==7&&options==false&&(mouseY>=331&&mouseY<=380&&mouseX>=200&&mouseX<=460)||(mouseY>=331&&mouseY<=380&&mouseX>=510&&mouseX<=780)||(mouseY>=360&&mouseY<=380&&mouseX>=840&&mouseX<=1110)) {
-
 
     start=true;
   }
@@ -302,6 +290,13 @@ void keyPressed() {
     ResetGame();
     Restart();
   }
+  
+   if (key=='3') {
+
+    colorOption=3;
+    ResetGame();
+    Restart();
+  }
     if (key == CODED) {
 
   if (keyCode ==DOWN) {
@@ -363,15 +358,21 @@ void ResetGame() {
 
 void GameOver() {
   if (lives==0) {
-    music.close();
+    //music.close();
 
-    LoseEffect.play();
+   // LoseEffect.play();
     background(0, 0, 0);
     textSize(50);
     fill(255, 0, 0);
     text("Ahahaha.You lost", 400, 200);
     text("Press q to exit, or space to start a new Game", 65, 650);
 
+    Restart();
+     gameover=false;
+    //if (pauseCheck==true) {
+      pauseCheck=false;
+   //   music.play();
+ //   }
     textSize(30);
     text("What is the matter bro/sis?", 120, 300);
     text("Are you mad?", 250, 360);
@@ -381,9 +382,9 @@ void GameOver() {
   }
 
   if ((lives==0)&&(counter>lstRect.size()-10)) {
-    music.close();
+   // music.close();
 
-    LoseEffect.play();
+   // LoseEffect.play();
     background(0, 0, 0);
     textSize(50);
     fill(255, 0, 0);
@@ -398,22 +399,33 @@ void GameOver() {
     tailSize=100;
     // image(img, 510, 250, 300, 340);
   }
-  if (lives>0&&counter!=20*58) {
+  if (lives>0&&counter!=20*58&&counter!=0) {
     background(0);
     textSize(50);
     fill(255, 0, 0);
-    text("Lives left: ", 480, 200);
+    text("Lives left: ",width/2-120, 200);
     for (int i=0; i<lives; i++) {
 
-      image(img3, 570 + 22* i, 260, 20, 20);
+      image(img3,500 + 22* i, 260, 20, 20);
     }
     for (int i=0; i<7-lives; i++) {
 
-      image(img4, 570 + 22* 6-22*i, 260, 20, 20);
+      image(img4, 500 + 22* 6-22*i, 260, 20, 20);
     }
-    text("Press space to continue playing", 150, 650);
-  }
-  if (counter==lstRect.size()) {
+    text("Press space to continue playing", 250, 650);
+  } else if (counter==0)
+  {
+    gameover=false;
+    if (pauseCheck==true) {
+      pauseCheck=false;
+   //   music.play();
+    }
+    if (lives==0) {
+      LoseEffect.close();
+    }
+    }
+    
+  if (counter==lstRect.size()&&counter!=0) {
 
     
    victoryDraw();
@@ -470,18 +482,6 @@ if (hideUI==false) {
   text(" " +int(round( counter/5.8 * 100.0f ) / 100.0f)+" % completed ", width/2-310, 25);
     textSize(20);
 
-  //for (int i=0; i<count; i++) {
-  //  Ball b = new Ball();
-  //  Ball temp = balls.get(i);
-  //  b.x = width/2-130+20*i;
-  //  b.y = 50;
-  //  b.xsize=10;
-  //  b.ysize=10;
-  //  b.colour = temp.returnColor();
-
-  //  b.drawBall();
-  //  ;
-  //}
   for (int i=0; i<lives; i++) {
 
     image(img3, width/2+170 + 22* i, 35, 20, 20);
@@ -643,8 +643,8 @@ void draw() {
 
           if (inPlayMode) {
 
-            //  GameModeChoice();
-            if (((mouseX>30)&&(mouseX<width-30))||(pause==true)||(mouseY>height)) {
+
+            if (((mouseX>40)&&(mouseX<width-40))||(pause==true)||(mouseY>height)) {
 
               if (music.isPlaying()==false) {
                 music.rewind();
@@ -652,21 +652,11 @@ void draw() {
               if (mute==false) {
                 music.play();
               }
-              fill(0, 0, 0, 20);
+              fill(0, 0, 0,60);
               rect(0, 0, width, height);
 
-              //WelcomeScreen a = new WelcomeScreen();
-
-              //a.startingScreen();
-              //checkMute(mute);
-
-              //checkEffects(effects);
-
-              // checkPowerUps(powerups);
-
               drawWall(); //draws the wall
-              
-                 // println(""+menuSelector);
+       
 
 
               CheckPwrUp();
@@ -708,8 +698,7 @@ void draw() {
               fill(colorBat);
 
               rect(mouseX-50, 680, xSizeBat, 20);  //draws the green rectangle that will be used as the bat
-              rect(mouseX-6, 670, 4, 10);
-              rect(mouseX+10, 670,4, 10);
+             
 
               for (Rectangle r : lstRect) {
 
@@ -731,17 +720,6 @@ void draw() {
                         //victoryDraw();
 
          
-         addLaser();
-          addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
-         addLaser();
 
          
       
@@ -755,13 +733,7 @@ void draw() {
 
                 l.CheckLaserPosition();
           }
-          
-      //  for (Rectangle r : lstRect) {
-
-      //          r.draw();
-                
-        
-      //}
+   
     }
 
               if (s%20==0&&milli==0) {
@@ -789,24 +761,10 @@ void draw() {
 
           if (lives==0) {
             GameOver();      
-            lives=7;
+            lives=8;
           }
         }
-      //} else {
-      //  //GameOver();
-      //  balls.clear();
-
-      //  addBricks();
-      //  beams.clear();
-      //          victoryDraw();
-
-      //  for (Rectangle r : lstRect) {
-
-      //          r.draw();
-                
-        
-      //}
-      //}
+    
     } else {
 
       options();
