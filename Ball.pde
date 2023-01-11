@@ -17,8 +17,8 @@ Ball()
 {
   y=random(450, 510); 
   x=random(500, 700);
-  vx = -5;
-  vy = -5;
+  vx = int(random(-3,-7));
+  vy = -int(random(-3,-7));
   colour = color (190, 0, 0);
   xsize =int(random(4, 7));
   ysize=int(random(4, 7));
@@ -131,19 +131,20 @@ void drawBall() {
     shakeScreen();
 
     vx = -vx;
-    if (effects!=true&&y-5<750) {
+    if (y-5<750) {
       shakeScreen();
     }
   }
   if (y-5<60) {
     vy = -vy;
+   // vx = int(random(3,7));
     reColor();
     reSize();
 
-    if (effects!=true) {
+  //  if (effects!=true) {
       selectEffect.trigger();
       shakeScreen();
-    }
+   // }
   }
 }
 
@@ -162,16 +163,16 @@ void CheckCollisionWithBat()
 
     Random = random(0, 255);
     
-      if (effects == true) {
+   //   if (effects == true) {
        wallEffect.trigger();
-    }
+  //  }
     colorBat = color (random(0, 255), random(0, 255), random(0, 255));
 
-    vy= -vy;
+    vy= -int (random(3,7));
     
       shakeScreen();
     reSize();
-      vx=-5;
+      vx=-int(random(3,7));
       
 
     } 
@@ -181,17 +182,17 @@ void CheckCollisionWithBat()
 
     Random = random(0, 255);
     
-     if (effects==true) {
+    // if (effects==true) {
          wallEffect.trigger();
-      }
+     // }
       colorBat = color (random(0, 255), random(0, 255), random(0, 255));
 
-      vy= -vy;
+      vy= -int (random(3,7));
       
        shakeScreen();
       reSize();
 
-        vx = 5;
+        vx = int (random(3,7));
       }
       
   
@@ -219,8 +220,9 @@ void CheckCollisionWithBat()
 
 
     public void reSize() {
- xsize = int(random(4, 7));
-      ysize = int(random(4, 7));
+ xsize = int(random(4, 9));
+      ysize = int(random(4,9));
+    
     }
     
      public void changeSpeed() {

@@ -9,7 +9,7 @@ class Rectangle {
     w=warg;
     h=harg;
     col = carg;
-    hitPoints = int(random(1,2));
+    hitPoints = int(random(1,3));
   }
 
 
@@ -19,7 +19,7 @@ class Rectangle {
     fill(col);
     
     stroke(255);
-    strokeWeight(1);
+    strokeWeight(0);
     rect(x, y, w, h);
     
     
@@ -34,9 +34,9 @@ class Rectangle {
      hitPoints--;
      reColor();
     }else {
-     if (effects!=true) {
+    // if (effects!=true) {
       brickEffect.trigger();
-    } 
+  //  } 
     x=-10;
     y=-10;
     w =0;

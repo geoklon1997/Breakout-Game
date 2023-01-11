@@ -327,6 +327,15 @@ void keyReleased() {
   if (key== 'l') {
    addLaser();
   }
+  
+  if (key == 'h') 
+  {
+    
+   if (lives<=6)
+   {
+    lives++; 
+   }
+  }
 }
 
 
@@ -455,7 +464,15 @@ text("Press q to exit", 450, 650);
 void drawWall() {
 
   percentage = counter/(20*29);
-
+if (counter==0)
+  {
+    gameover=false;
+    if (pauseCheck==true) {
+      pauseCheck=false;
+   //   music.play();
+    }
+  }
+    
   fill(0, 200, 0);
   stroke(0, 255, 0);
   strokeWeight(3);
@@ -560,7 +577,6 @@ void NewGame() {
         image(img5, 930, 400, 100, 70);
       }
       if (lives<7) {
-
         background(0, 0, 0);
         textSize(50);
         fill(255, 0, 0);
@@ -635,7 +651,14 @@ void draw() {
   if (pauseCheck==false) {
 
     if (pause==false) {
-
+if (counter==0&&lives!=0)
+  {
+    gameover=false;
+    if (pauseCheck==true) {
+      pauseCheck=false;
+   //   music.play(); 
+    }
+  }
      // if (counter<20*29) {
 
         if (gameover==false) {
@@ -736,8 +759,12 @@ void draw() {
    
     }
 
-              if (s%20==0&&milli==0) {
+              if (s%10==0&&milli==0) {
                 addBall();
+              }
+              
+                if (s%20==0&&milli==0) {
+                addLaser();
                 addLaser();
               }
             } else {
@@ -876,12 +903,12 @@ void Controls() {
   fill(0, 200, 0);
   textSize(30);
   text("Controls", width/2-100, 50);
-  text("1. Use the mouse, in order to control the paddle.", 300, 150);
-  text("2. Press q to exit the game at any time", 300, 250);
-  text("3. Press r to restart the game at any time", 300, 350);
-  text("4. Press ESC to pause and space to resume", 300, 450);
-  text("5. Press m to turn the music on or off at any time", 300, 550);
-  text("6. Press e to turn the sound effects on or off at any time", 300, 650);
+  text("1. Use the mouse, in order to control the paddle.", 100, 150);
+  text("2. Press q to exit the game at any time",100, 250);
+  text("3. Press r to restart the game at any time", 100, 350);
+  text("4. Press ESC to pause and space to resume",100, 450);
+  text("5. Press m to turn the music on or off at any time",100, 550);
+  text("6. Press e to turn the sound effects on or off at any time",100, 650);
   if ((mouseX>width/2-200&&mouseX<width/2+220)&&(mouseY<height-10)&&(mouseY>height-30)) {
     fill(200, 200, 0);
   }
