@@ -442,8 +442,8 @@ void GameOver() {
 }
 
 void victoryDraw() {
- // music.pause();
-   // WinEffect.play();
+  music.pause();
+   WinEffect.play();
     fill(0, 200, 0);
     stroke(0, 255, 0);
     strokeWeight(3);
@@ -740,7 +740,7 @@ if (counter==0&&lives!=0)
         addBricks();
         beams.clear();
         hideUI = true;
-                        //victoryDraw();
+                        victoryDraw();
 
          
 
@@ -981,6 +981,8 @@ void loadSoundEffects() {
 void updateTimer() {
    textSize(20);
   fill(0, 250, 0);
+  if (hideUI==false)
+  {
   if (milli<=59) {
     
  if (m<10&&s<10) {
@@ -1031,5 +1033,5 @@ void updateTimer() {
 m++;
 s=0;
   }
-  
+  }
 }

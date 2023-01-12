@@ -19,7 +19,7 @@ class Rectangle {
     fill(col);
     
     stroke(255);
-    strokeWeight(0);
+    strokeWeight(1);
     rect(x, y, w, h);
     
     

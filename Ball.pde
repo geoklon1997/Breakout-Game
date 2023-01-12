@@ -32,14 +32,14 @@ public  void setupNewBall() {
 void drawBall() {
 
 
-  fill(0);
+  //fill(0);
     //stroke(0,0,0);
   //strokeWeight(1);
 
   fill(colour);
   stroke(100);
   ellipse(x, y, xsize, ysize);
-  line(x, y, x, y+5);
+  line(x, y, x, y+2);
 }
   void moveBall() 
 {
@@ -81,8 +81,6 @@ void drawBall() {
     }
     vy=-vy;
     shakeScreen();
-    
-    Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
     reSize();
      }
      
@@ -100,8 +98,6 @@ void drawBall() {
     vy=-vy;
     shakeScreen();
     reSize();
-
-    Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
   }
 
   if (((y>=r.y+15)&&(y<=r.y+5))&&(x>=r.x)&&(x<=r.x+40)) {
@@ -116,7 +112,6 @@ void drawBall() {
     }
     vy=-vy;
     shakeScreen();
-     Breakout_3.tailSize =  Breakout_3.tailSize-0.14;
     reSize();
 
   }
@@ -125,25 +120,37 @@ void drawBall() {
 
   void CheckCollisionWithWall()
   {
-  if (x-5<8||x+5>width-8) {
+  if (x-xsize<8||x+xsize>width-8) {
     reColor();
     reSize();
-    shakeScreen();
-
-    vx = -vx;
-    if (y-5<750) {
-      shakeScreen();
-    }
+    //if (vx >0)
+  //  {
+  //    vx = int(random(-3,-7));
+  
+   // }
+  // else {
+      
+  //     vx = int(random(3,7));
+  //  }
+  vx = -vx;
+    
   }
-  if (y-5<60) {
-    vy = -vy;
+  if (y-ysize<60) {
+    
+     if (vy >0)
+    {
+      vy = int(random(-3,-7));
+    }
+    else {
+      
+       vy = int(random(3,7));
+    }
    // vx = int(random(3,7));
     reColor();
     reSize();
 
   //  if (effects!=true) {
       selectEffect.trigger();
-      shakeScreen();
    // }
   }
 }
@@ -220,8 +227,8 @@ void CheckCollisionWithBat()
 
 
     public void reSize() {
- xsize = int(random(4, 9));
-      ysize = int(random(4,9));
+ xsize = int(random(3, 12));
+      ysize = int(random(3,12));
     
     }
     
@@ -235,10 +242,10 @@ void CheckCollisionWithBat()
     }
 
     public void shakeScreen() {
-      if (effects==true) {
+ //     if (effects==true) {
         PImage screenImage = get();
         imageMode(CORNER);
-        image(screenImage, 15, 15);
-      }
+        image(screenImage, 3,3);
+ //     }
     }
   }
